@@ -5,7 +5,12 @@ const result = document.getElementById('result');
 form.addEventListener('submit', async (e) => {
     e.preventDefault(); // prevent page reload
 
-    // Collect data from form inputs
+    // 1. Show a loading message (Render's free tier can take 30-50s to wake up)
+    result.style.display = "block";
+    result.style.color = "#555";
+    result.textContent = "Connecting to server... Please wait (this may take a minute if the server is starting up).";
+
+    // 2. Collect data from form inputs
     const data = {
         name: document.getElementById('name').value,
         company: document.getElementById('company').value,
@@ -14,8 +19,8 @@ form.addEventListener('submit', async (e) => {
     };
 
     try {
-        // Send POST request to FastAPI
-        const response = await fetch('http://127.0.0.1:8000/predict', {
+    
+        const response = await fetch('https://project-no-1-tsf2.onrender.com/predict', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
@@ -25,17 +30,25 @@ form.addEventListener('submit', async (e) => {
 
         const json = await response.json();
 
-        // Show prediction or error
-        result.style.display = "block";
-        if(response.ok){
-            result.textContent = `Predicted Price: ${json.prediction}`;
+        if (response.ok) {
+            result.style.color = "green";
+            // Formatting the number to look like currency (INR)
+            const formattedPrice = new Intl.NumberFormat('en-IN', {
+                style: 'currency',
+                currency: 'INR',
+                maximumFractionDigits: 0
+            }).format(json.prediction);
+
+            result.textContent = `Estimated Price: ${formattedPrice}`;
         } else {
-            result.textContent = `Error: ${json.error}`;
+            result.style.color = "red";
+            result.textContent = `Server Error: ${json.error || 'Something went wrong'}`;
         }
 
     } catch (error) {
-        // Handle network errors
-        result.style.display = "block";
-        result.textContent = `Network Error: ${error}`;
+        // 5. Handle network errors (e.g., no internet or server down)
+        result.style.color = "red";
+        result.textContent = `Network Error: Could not connect to the API.`;
+        console.error("Fetch error:", error);
     }
 });
