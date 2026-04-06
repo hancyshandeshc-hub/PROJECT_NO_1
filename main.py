@@ -1,6 +1,7 @@
 from fastapi import FastAPI
 from fastapi.responses import JSONResponse
 from schema.user_input_pydantic import UserInput
+import pandas as pd
 from Model.predict import predict_output, model
 from fastapi.middleware.cors import CORSMiddleware
 
