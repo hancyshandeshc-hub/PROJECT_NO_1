@@ -33,7 +33,7 @@ form.addEventListener('submit', async (e) => {
         if (response.ok) {
             result.style.color = "green";
             // Formatting the number to look like currency (INR)
-            const formattedPrice = new Intl.NumberFormat('en-IN', {
+            const formattedPrice = new Intl.NumberFormat('en-NP', {
                 style: 'currency',
                 currency: 'INR',
                 maximumFractionDigits: 0
