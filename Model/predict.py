@@ -1,5 +1,6 @@
 import os
 import pickle
+import pandas as pd
 model_path = os.path.join("Model", "model (3).pkl")
 with open(model_path, "rb") as f:
     model = pickle.load(f)
