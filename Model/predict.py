@@ -3,7 +3,7 @@ import pickle
 import pandas as pd
 
 
-model_path = os.path.join("Model", "model (3).pkl")
+model_path = os.path.join("Model", "OurMLmodel.pkl")
 
 with open(model_path, "rb") as f:
     model = pickle.load(f)
