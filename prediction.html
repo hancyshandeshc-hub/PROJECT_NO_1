@@ -1,0 +1,505 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Rainfall Prediction | RainPredict</title>
+
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Poppins:wght@500;600;700;800&display=swap"
+        rel="stylesheet"
+    >
+
+    <link rel="stylesheet" href="style.css">
+
+</head>
+
+
+<body class="prediction-page">
+
+
+    <!-- NAVBAR -->
+
+    <nav class="navbar">
+
+        <div class="nav-logo">
+            🌧️ RainPredict
+        </div>
+
+        <div class="nav-links">
+
+            <a href="index.html">
+                Home
+            </a>
+
+        </div>
+
+    </nav>
+
+
+    <!-- PREDICTION -->
+
+    <main class="prediction-container">
+
+
+        <div class="prediction-header">
+
+            <span>
+                🌧️ RAINFALL FORECAST
+            </span>
+
+            <h1>
+                Predict Expected Rainfall
+            </h1>
+
+            <p>
+                Enter the environmental conditions below to
+                estimate precipitation.
+            </p>
+
+        </div>
+
+
+        <div class="prediction-layout">
+
+
+            <!-- FORM -->
+
+            <div class="prediction-card">
+
+                <form id="predictionForm">
+
+
+                    <!-- MONTH -->
+
+                    <div class="input-group">
+
+                        <label for="month">
+
+                            📅 Month
+
+                            <span>
+                                Month for prediction
+                            </span>
+
+                        </label>
+
+                        <select
+                            id="month"
+                            required
+                        >
+
+                            <option value="">
+                                Select month
+                            </option>
+
+                            <option value="1">January</option>
+                            <option value="2">February</option>
+                            <option value="3">March</option>
+                            <option value="4">April</option>
+                            <option value="5">May</option>
+                            <option value="6">June</option>
+                            <option value="7">July</option>
+                            <option value="8">August</option>
+                            <option value="9">September</option>
+                            <option value="10">October</option>
+                            <option value="11">November</option>
+                            <option value="12">December</option>
+
+                        </select>
+
+                    </div>
+
+
+                    <!-- DISTRICT -->
+
+                    <div class="input-group">
+
+                        <label for="district">
+
+                            📍 District
+
+                            <span>
+                                Location for prediction
+                            </span>
+
+                        </label>
+
+                        <select
+                            id="district"
+                            required
+                        >
+
+                            <option value="">
+                                Select district
+                            </option>
+
+                            <!--
+                            Replace/add districts according
+                            to the values used by your model.
+                            -->
+
+                            <option value="Kathmandu">
+                                Kathmandu
+                            </option>
+
+                            <option value="Chitwan">
+                                Chitwan
+                            </option>
+
+                            <option value="Jhapa">
+                                Jhapa
+                            </option>
+
+                            <option value="Morang">
+                                Morang
+                            </option>
+
+                            <option value="Sunsari">
+                                Sunsari
+                            </option>
+
+                            <option value="Rupandehi">
+                                Rupandehi
+                            </option>
+
+                            <option value="Kaski">
+                                Kaski
+                            </option>
+
+                            <option value="Lalitpur">
+                                Lalitpur
+                            </option>
+
+                            <option value="Bhaktapur">
+                                Bhaktapur
+                            </option>
+
+                            <option value="Others">
+                                Others
+                            </option>
+
+                        </select>
+
+                    </div>
+
+
+                    <div class="form-grid">
+
+
+                        <!-- HUMIDITY -->
+
+                        <div class="input-group">
+
+                            <label for="rh2m">
+
+                                💧 Humidity
+
+                                <span>
+                                    Current relative humidity
+                                </span>
+
+                            </label>
+
+                            <div class="input-with-unit">
+
+                                <input
+                                    type="number"
+                                    id="rh2m"
+                                    step="any"
+                                    min="0"
+                                    max="100"
+                                    placeholder="e.g. 75"
+                                    required
+                                >
+
+                                <span>%</span>
+
+                            </div>
+
+                        </div>
+
+
+                        <!-- TEMPERATURE -->
+
+                        <div class="input-group">
+
+                            <label for="t2m">
+
+                                🌡️ Temperature
+
+                                <span>
+                                    Current air temperature
+                                </span>
+
+                            </label>
+
+                            <div class="input-with-unit">
+
+                                <input
+                                    type="number"
+                                    id="t2m"
+                                    step="any"
+                                    placeholder="e.g. 25"
+                                    required
+                                >
+
+                                <span>°C</span>
+
+                            </div>
+
+                        </div>
+
+
+                        <!-- WIND -->
+
+                        <div class="input-group">
+
+                            <label for="ws10m">
+
+                                💨 Wind Speed
+
+                                <span>
+                                    Wind speed near 10 m height
+                                </span>
+
+                            </label>
+
+                            <div class="input-with-unit">
+
+                                <input
+                                    type="number"
+                                    id="ws10m"
+                                    step="any"
+                                    min="0"
+                                    placeholder="e.g. 3.5"
+                                    required
+                                >
+
+                                <span>m/s</span>
+
+                            </div>
+
+                        </div>
+
+
+                        <!-- PRESSURE -->
+
+                        <div class="input-group">
+
+                            <label for="ps">
+
+                                🧭 Atmospheric Pressure
+
+                                <span>
+                                    Surface atmospheric pressure
+                                </span>
+
+                            </label>
+
+                            <div class="input-with-unit">
+
+                                <input
+                                    type="number"
+                                    id="ps"
+                                    step="any"
+                                    min="0"
+                                    placeholder="e.g. 95"
+                                    required
+                                >
+
+                                <span>kPa</span>
+
+                            </div>
+
+                        </div>
+
+
+                        <!-- LAST MONTH RAIN -->
+
+                        <div class="input-group">
+
+                            <label for="lastRain">
+
+                                🌧️ Previous Month Rainfall
+
+                                <span>
+                                    Total precipitation last month
+                                </span>
+
+                            </label>
+
+                            <div class="input-with-unit">
+
+                                <input
+                                    type="number"
+                                    id="lastRain"
+                                    step="any"
+                                    min="0"
+                                    placeholder="e.g. 120"
+                                    required
+                                >
+
+                                <span>mm</span>
+
+                            </div>
+
+                        </div>
+
+
+                        <!-- LAST MONTH HUMIDITY -->
+
+                        <div class="input-group">
+
+                            <label for="lastHumidity">
+
+                                💧 Previous Month Humidity
+
+                                <span>
+                                    Average relative humidity
+                                </span>
+
+                            </label>
+
+                            <div class="input-with-unit">
+
+                                <input
+                                    type="number"
+                                    id="lastHumidity"
+                                    step="any"
+                                    min="0"
+                                    max="100"
+                                    placeholder="e.g. 72"
+                                    required
+                                >
+
+                                <span>%</span>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+
+                    <button
+                        type="submit"
+                        id="predictButton"
+                        class="predict-button"
+                    >
+
+                        <span>
+                            Predict Rainfall
+                        </span>
+
+                        <span>
+                            →
+                        </span>
+
+                    </button>
+
+
+                </form>
+
+            </div>
+
+
+            <!-- INFORMATION -->
+
+            <div class="info-panel">
+
+                <div class="info-icon">
+                    🌦️
+                </div>
+
+                <h2>
+                    Why these factors?
+                </h2>
+
+                <p>
+                    Rainfall depends on several atmospheric
+                    and environmental conditions.
+                </p>
+
+
+                <div class="info-item">
+
+                    <strong>
+                        💧 Humidity
+                    </strong>
+
+                    <span>
+                        Indicates the amount of moisture
+                        present in the air.
+                    </span>
+
+                </div>
+
+
+                <div class="info-item">
+
+                    <strong>
+                        🌡️ Temperature
+                    </strong>
+
+                    <span>
+                        Influences evaporation and
+                        atmospheric moisture.
+                    </span>
+
+                </div>
+
+
+                <div class="info-item">
+
+                    <strong>
+                        💨 Wind
+                    </strong>
+
+                    <span>
+                        Helps transport moisture through
+                        the atmosphere.
+                    </span>
+
+                </div>
+
+
+                <div class="info-item">
+
+                    <strong>
+                        🌧️ Historical Weather
+                    </strong>
+
+                    <span>
+                        Previous rainfall and humidity
+                        provide useful historical context.
+                    </span>
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <!-- RESULT -->
+
+        <div
+            id="result"
+            class="result-container"
+        >
+
+        </div>
+
+
+    </main>
+
+
+    <script src="script.js"></script>
+
+</body>
+
+</html>
