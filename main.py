@@ -1,21 +1,25 @@
+import logging
+
 from fastapi import FastAPI
-from fastapi.responses import JSONResponse
 from fastapi.middleware.cors import CORSMiddleware
+from fastapi.responses import JSONResponse
 
 from schema.user_input_pydantic import UserInput
 from Model.predict import predict_output
 
+logger = logging.getLogger("rainfall-api")
+
 app = FastAPI(
     title="Rainfall Prediction System",
     description="Machine Learning based Rainfall Prediction API",
-    version="1.0.0"
+    version="1.0.0",
 )
 
-# CORS
+# CORS (no cookies are used, so credentials are not needed with a wildcard origin)
 app.add_middleware(
     CORSMiddleware,
     allow_origins=["*"],
-    allow_credentials=True,
+    allow_credentials=False,
     allow_methods=["*"],
     allow_headers=["*"],
 )
@@ -25,22 +29,18 @@ app.add_middleware(
 def home():
     return {
         "message": "Welcome to Rainfall Prediction System API",
-        "status": "running"
+        "status": "running",
     }
 
 
 @app.get("/health")
 def health_check():
-    return {
-        "status": "OK"
-    }
+    return {"status": "OK"}
 
 
 @app.post("/predict")
 def predict_rainfall(data: UserInput):
-
     try:
-
         user_input = {
             "MONTH": data.MONTH,
             "DISTRICT": data.DISTRICT,
@@ -49,7 +49,7 @@ def predict_rainfall(data: UserInput):
             "WS10M": data.WS10M,
             "PS": data.PS,
             "PRECTOT_LAST_MONTH": data.PRECTOT_LAST_MONTH,
-            "RH2M_LAST_MONTH": data.RH2M_LAST_MONTH
+            "RH2M_LAST_MONTH": data.RH2M_LAST_MONTH,
         }
 
         prediction = predict_output(user_input)
@@ -58,15 +58,11 @@ def predict_rainfall(data: UserInput):
             status_code=200,
             content={
                 "prediction": round(float(prediction), 2),
-                "unit": "mm"
-            }
+                "unit": "mm",
+            },
         )
 
     except Exception as e:
-
-        return JSONResponse(
-            status_code=500,
-            content={
-                "error": str(e)
-            }
-        )
+        # Full traceback goes to the Render logs so failures are easy to debug.
+        logger.exception("Prediction failed")
+        return JSONResponse(status_code=500, content={"error": str(e)})
