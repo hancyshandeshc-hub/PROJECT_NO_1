@@ -1,49 +1,72 @@
 from fastapi import FastAPI
-import pandas as pd
 from fastapi.responses import JSONResponse
-from schema.user_input_pydantic import UserInput
-from Model.predict import predict_output, model
 from fastapi.middleware.cors import CORSMiddleware
 
-app = FastAPI()
+from schema.user_input_pydantic import UserInput
+from Model.predict import predict_output
+
+app = FastAPI(
+    title="Rainfall Prediction System",
+    description="Machine Learning based Rainfall Prediction API",
+    version="1.0.0"
+)
+
+# CORS
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["*"],  # Allows the website to talk to the API
+    allow_origins=["*"],
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
 )
-	# human readable
-@app.get('/')
-def home():
-    return {'message':'Welcome to Car Price Prediction API'}
 
-	# machine readable
-@app.get('/health')
+
+@app.get("/")
+def home():
+    return {
+        "message": "Welcome to Rainfall Prediction System API",
+        "status": "running"
+    }
+
+
+@app.get("/health")
 def health_check():
     return {
-        	'status': 'OK',
-          }
+        "status": "OK"
+    }
 
-@app.post('/predict')
-def predict_price(data: UserInput):
+
+@app.post("/predict")
+def predict_rainfall(data: UserInput):
+
     try:
+
         user_input = {
-            'name': data.name,
-            'company': data.company,
-            'year': data.year,
-            'kms_driven': data.kms_driven,
+            "MONTH": data.MONTH,
+            "DISTRICT": data.DISTRICT,
+            "RH2M": data.RH2M,
+            "T2M": data.T2M,
+            "WS10M": data.WS10M,
+            "PS": data.PS,
+            "PRECTOT_LAST_MONTH": data.PRECTOT_LAST_MONTH,
+            "RH2M_LAST_MONTH": data.RH2M_LAST_MONTH
         }
 
         prediction = predict_output(user_input)
 
         return JSONResponse(
             status_code=200,
-            content={'prediction': prediction}
+            content={
+                "prediction": round(float(prediction), 2),
+                "unit": "mm"
+            }
         )
 
     except Exception as e:
+
         return JSONResponse(
             status_code=500,
-            content={'error': str(e)}
+            content={
+                "error": str(e)
+            }
         )
