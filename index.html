@@ -1,56 +1,310 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
+
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Car Price Prediction</title>
-    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
+
+    <meta
+        name="description"
+        content="Rainfall Prediction System powered by Machine Learning"
+    >
+
+    <title>Rainfall Prediction System</title>
+
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Poppins:wght@500;600;700;800&display=swap"
+        rel="stylesheet"
+    >
+
     <link rel="stylesheet" href="style.css">
+
 </head>
+
+
 <body>
 
-<div class="container">
-    <h1>Car Price Prediction</h1>
-    <form id="predictionForm">
-        <label for="name">Name of the Car</label>
-        <input list="names" name="name" id="name" placeholder="Select or type name">
-        <datalist id="names">
-            <option value="Hyundai Santro Xing">
-            <option value="Maruti Suzuki Alto">
-            <option value="Hyundai Grand i10">
-            <option value="Hyundai Elite i20">
-            <option value="Maruti Suzuki Swift">
-            <option value="Maruti Suzuki Wagon">
-            <option value="Maruti Suzuki Ertiga">
-            <option value="Others">
-        </datalist>
+    <!-- NAVBAR -->
 
-        <label for="company">Company:</label>
-        <select id="company" name="company" required>
-            <option value="">--Select--</option>
-            <option value="Hyundai">Hyundai</option>
-            <option value="Mahindra">Mahindra</option>
-            <option value="Maruti">Maruti</option>
-            <option value="Ford">Ford</option>
-            <option value="Toyota">Toyota</option>
-            <option value="Renault">Renault</option>
-            <option value="Honda">Honda</option>
-            <option value="Tata">Tata</option>
-            <option value="Chevrolet">Chevrolet</option>
-            <option value="Others">Others</option>
-        </select>
+    <nav class="navbar">
 
-        <label for="year">Year</label>
-        <input type="number" id="year" name="year" min="1900" max="2026" placeholder="YYYY" required>
+        <div class="nav-logo">
+            🌧️ RainPredict
+        </div>
 
-        <label for="kms_driven">KMS Driven</label>
-        <input type="number" id="kms_driven" name="kms_driven" min="0" placeholder="Kilometers Driven" required>
+        <div class="nav-links">
 
-        <button type="submit">Predict</button>
-    </form>
+            <a href="#about">About</a>
+            <a href="#awareness">Awareness</a>
 
-    <div id="result"></div>
-</div>
-<script src="script.js"></script>
+            <a
+                href="prediction.html"
+                class="nav-button"
+            >
+                Predict Rainfall
+            </a>
+
+        </div>
+
+    </nav>
+
+
+    <!-- HERO -->
+
+    <section class="hero">
+
+        <div class="hero-content">
+
+            <div class="badge">
+                🌍 AI-Powered Climate Intelligence
+            </div>
+
+            <h1>
+                Predict Rainfall.
+                <span>Understand the Weather.</span>
+            </h1>
+
+            <p>
+                An intelligent machine learning system that estimates
+                precipitation using atmospheric and environmental conditions.
+            </p>
+
+            <div class="hero-buttons">
+
+                <a
+                    href="prediction.html"
+                    class="primary-button"
+                >
+                    Predict Rainfall
+                    <span>→</span>
+                </a>
+
+                <a
+                    href="#about"
+                    class="secondary-button"
+                >
+                    Learn More
+                </a>
+
+            </div>
+
+            <div class="hero-stats">
+
+                <div>
+                    <strong>8</strong>
+                    <span>Climate Inputs</span>
+                </div>
+
+                <div>
+                    <strong>ML</strong>
+                    <span>Powered Prediction</span>
+                </div>
+
+                <div>
+                    <strong>mm</strong>
+                    <span>Precipitation Output</span>
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <div class="hero-visual">
+
+            <div class="weather-card">
+
+                <div class="weather-icon">
+                    🌧️
+                </div>
+
+                <div>
+
+                    <span class="weather-label">
+                        Rainfall Intelligence
+                    </span>
+
+                    <h3>
+                        Data → Prediction
+                    </h3>
+
+                    <p>
+                        Turning environmental data into
+                        meaningful rainfall insights.
+                    </p>
+
+                </div>
+
+            </div>
+
+
+            <div class="floating-card card-one">
+                💧 Humidity
+            </div>
+
+            <div class="floating-card card-two">
+                🌡️ Temperature
+            </div>
+
+            <div class="floating-card card-three">
+                💨 Wind Speed
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <!-- ABOUT -->
+
+    <section id="about" class="section">
+
+        <div class="section-heading">
+
+            <span>HOW IT WORKS</span>
+
+            <h2>
+                From environmental data
+                to rainfall prediction.
+            </h2>
+
+            <p>
+                Our system analyzes multiple atmospheric and
+                historical weather conditions to estimate the
+                expected precipitation.
+            </p>
+
+        </div>
+
+
+        <div class="feature-grid">
+
+            <div class="feature-card">
+
+                <div class="feature-icon">
+                    📍
+                </div>
+
+                <h3>
+                    Location
+                </h3>
+
+                <p>
+                    Select the district where you want to
+                    estimate rainfall.
+                </p>
+
+            </div>
+
+
+            <div class="feature-card">
+
+                <div class="feature-icon">
+                    🌡️
+                </div>
+
+                <h3>
+                    Atmospheric Conditions
+                </h3>
+
+                <p>
+                    Temperature, humidity, wind speed and
+                    atmospheric pressure are considered.
+                </p>
+
+            </div>
+
+
+            <div class="feature-card">
+
+                <div class="feature-icon">
+                    🤖
+                </div>
+
+                <h3>
+                    Machine Learning
+                </h3>
+
+                <p>
+                    The trained ML model analyzes the
+                    provided environmental information.
+                </p>
+
+            </div>
+
+
+            <div class="feature-card">
+
+                <div class="feature-icon">
+                    🌧️
+                </div>
+
+                <h3>
+                    Rainfall Prediction
+                </h3>
+
+                <p>
+                    Receive an estimated precipitation value
+                    in millimeters.
+                </p>
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <!-- AWARENESS -->
+
+    <section id="awareness" class="awareness-section">
+
+        <div class="awareness-content">
+
+            <span>
+                🌱 WHY IT MATTERS
+            </span>
+
+            <h2>
+                Better weather awareness
+                starts with better information.
+            </h2>
+
+            <p>
+                Rainfall affects agriculture, water resources,
+                transportation, disaster preparedness and everyday life.
+                Understanding precipitation patterns can help communities
+                prepare and respond more effectively.
+            </p>
+
+            <a
+                href="prediction.html"
+                class="primary-button"
+            >
+                Try Prediction →
+            </a>
+
+        </div>
+
+    </section>
+
+
+    <!-- FOOTER -->
+
+    <footer>
+
+        <div>
+            🌧️ <strong>RainPredict</strong>
+        </div>
+
+        <p>
+            Machine Learning Based Rainfall Prediction System
+        </p>
+
+    </footer>
+
+
 </body>
+
 </html>
