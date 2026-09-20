@@ -138,7 +138,7 @@ form.addEventListener("submit", async function (event) {
     try {
 
         const response = await fetch(
-            " https://render.com/docs/troubleshooting-deploys",
+            "https://project-no-1-60tm.onrender.com",
             {
                 method: "POST",
 
