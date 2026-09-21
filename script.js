@@ -19,7 +19,7 @@ function getRainfallCategory(precipitation) {
         return {
             title: "No Rainfall",
             className: "no-rain",
-            image: "images/no-rainfall.jpg",
+            image: "no-rainfall.jpg.png",
             message:
                 "Dry conditions are expected. This can be a good opportunity to conserve water and use available water resources responsibly."
         };
@@ -31,7 +31,7 @@ function getRainfallCategory(precipitation) {
         return {
             title: "Very Low Rainfall",
             className: "very-low-rain",
-            image: "images/very-low-rainfall.jpg",
+            image: "very-low-rainfall.jpg.png",
             message:
                 "Only a small amount of rainfall is expected. Consider conserving water and avoiding unnecessary water consumption."
         };
@@ -43,7 +43,7 @@ function getRainfallCategory(precipitation) {
         return {
             title: "Low Rainfall",
             className: "low-rain",
-            image: "images/low-rainfall.jpg",
+            image: "low-rainfall.jpg.png",
             message:
                 "Light rainfall is expected. Rainwater harvesting can help make useful use of limited rainfall."
         };
@@ -55,7 +55,7 @@ function getRainfallCategory(precipitation) {
         return {
             title: "Moderate Rainfall",
             className: "moderate-rain",
-            image: "images/moderate-rainfall.jpg",
+            image: "moderate-rainfall.jpg.png",
             message:
                 "Moderate rainfall is expected. Rainwater can support agriculture and replenish local water resources."
         };
@@ -67,7 +67,7 @@ function getRainfallCategory(precipitation) {
         return {
             title: "High Rainfall",
             className: "high-rain",
-            image: "images/high-rainfall.jpg",
+            image: "high-rainfall.jpg.png",
             message:
                 "Heavy rainfall is expected. Stay alert for waterlogging and possible disruptions, especially in vulnerable areas."
         };
@@ -77,7 +77,7 @@ function getRainfallCategory(precipitation) {
     return {
         title: "Very High Rainfall",
         className: "very-high-rain",
-        image: "images/very-high-rainfall.jpg",
+        image: "very-high-rainfall.jpg.png",
         message:
             "Very high rainfall is expected. Be alert to possible flooding, landslides and transportation disruptions. Follow local safety guidance."
     };
