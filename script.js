@@ -2,10 +2,19 @@ const form = document.getElementById("predictionForm");
 const result = document.getElementById("result");
 const predictButton = document.getElementById("predictButton");
 
+// The FastAPI route is /predict, so the URL must end with it.
+const API_URL = "https://project-no-1-60tm.onrender.com/predict";
+
+// Free Render services can take about a minute to wake up after being idle.
+const REQUEST_TIMEOUT_MS = 90000;
+
 
 function getRainfallCategory(precipitation) {
 
-    if (precipitation <= 0) {
+    // Ranges are contiguous (using "<" upper bounds) so values such as
+    // 0.05, 2.45 or 7.55 mm cannot fall through to "Very High Rainfall".
+
+    if (precipitation < 0.1) {
 
         return {
             title: "No Rainfall",
@@ -17,7 +26,7 @@ function getRainfallCategory(precipitation) {
 
     }
 
-    if (precipitation >= 0.1 && precipitation <= 2.4) {
+    if (precipitation < 2.5) {
 
         return {
             title: "Very Low Rainfall",
@@ -29,7 +38,7 @@ function getRainfallCategory(precipitation) {
 
     }
 
-    if (precipitation >= 2.5 && precipitation <= 7.5) {
+    if (precipitation < 7.6) {
 
         return {
             title: "Low Rainfall",
@@ -41,7 +50,7 @@ function getRainfallCategory(precipitation) {
 
     }
 
-    if (precipitation >= 7.6 && precipitation <= 35.5) {
+    if (precipitation < 35.6) {
 
         return {
             title: "Moderate Rainfall",
@@ -53,7 +62,7 @@ function getRainfallCategory(precipitation) {
 
     }
 
-    if (precipitation >= 35.6 && precipitation <= 64.4) {
+    if (precipitation < 64.5) {
 
         return {
             title: "High Rainfall",
@@ -72,6 +81,26 @@ function getRainfallCategory(precipitation) {
         message:
             "Very high rainfall is expected. Be alert to possible flooding, landslides and transportation disruptions. Follow local safety guidance."
     };
+}
+
+
+// Turns FastAPI error bodies into a readable message.
+function getErrorMessage(json, status) {
+
+    if (json && json.error) {
+        return json.error;
+    }
+
+    // 422 validation errors arrive as { detail: [ { msg, loc, ... } ] }
+    if (json && Array.isArray(json.detail)) {
+        return json.detail.map(d => d.msg).join(", ");
+    }
+
+    if (json && typeof json.detail === "string") {
+        return json.detail;
+    }
+
+    return `Prediction failed (server responded with status ${status}).`;
 }
 
 
@@ -94,7 +123,7 @@ form.addEventListener("submit", async function (event) {
         <div class="loading-result">
             <div class="big-loader"></div>
             <h3>Analyzing environmental conditions...</h3>
-            <p>Please wait while our machine learning model makes the prediction.</p>
+            <p>Please wait while our machine learning model makes the prediction. If the server was idle, the first request can take up to a minute.</p>
         </div>
     `;
 
@@ -135,29 +164,39 @@ form.addEventListener("submit", async function (event) {
     };
 
 
+    const controller = new AbortController();
+    const timeoutId = setTimeout(() => controller.abort(), REQUEST_TIMEOUT_MS);
+
+
     try {
 
-        const response = await fetch(
-            "https://project-no-1-60tm.onrender.com",
-            {
-                method: "POST",
+        const response = await fetch(API_URL, {
+            method: "POST",
 
-                headers: {
-                    "Content-Type": "application/json"
-                },
+            headers: {
+                "Content-Type": "application/json"
+            },
 
-                body: JSON.stringify(data)
-            }
-        );
+            body: JSON.stringify(data),
+
+            signal: controller.signal
+        });
 
 
-        const json = await response.json();
+        // The body may not be JSON (for example a Render error page).
+        let json = null;
+
+        try {
+            json = await response.json();
+        } catch (parseError) {
+            json = null;
+        }
 
 
         if (!response.ok) {
 
             throw new Error(
-                json.error || "Prediction failed."
+                getErrorMessage(json, response.status)
             );
 
         }
@@ -225,6 +264,11 @@ form.addEventListener("submit", async function (event) {
 
         console.error(error);
 
+        const message =
+            error.name === "AbortError"
+                ? "The server took too long to respond."
+                : error.message;
+
 
         result.innerHTML = `
 
@@ -239,7 +283,7 @@ form.addEventListener("submit", async function (event) {
                 </h3>
 
                 <p>
-                    ${error.message}
+                    ${message}
                 </p>
 
                 <small>
@@ -251,19 +295,22 @@ form.addEventListener("submit", async function (event) {
 
         `;
 
+    } finally {
+
+        clearTimeout(timeoutId);
+
+        predictButton.disabled = false;
+
+        predictButton.innerHTML = `
+            <span>
+                Predict Rainfall
+            </span>
+
+            <span>
+                →
+            </span>
+        `;
+
     }
-
-
-    predictButton.disabled = false;
-
-    predictButton.innerHTML = `
-        <span>
-            Predict Rainfall
-        </span>
-
-        <span>
-            →
-        </span>
-    `;
 
 });
